@@ -1,0 +1,103 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage{array}
+
+%Farbige gestaltung
+\usepackage{xcolor}    %this package provides foreground and background color management
+
+\definecolor{darkblue}{RGB}{0,68,170}
+\definecolor{darkred}{RGB}{106,0,0}
+\definecolor{darkgreen}{RGB}{1,73,62}
+\definecolor{lightgreen}{RGB}{129,195,65}
+\definecolor{darkviolett}{RGB}{59,0,112}
+\definecolor{violett}{RGB}{136,134,248}
+\definecolor{pink}{RGB}{151,8,79}
+\definecolor{mediumgreen}{RGB}{0,187,177}
+\definecolor{darkgrey}{RGB}{32,32,37}
+\definecolor{mediumgrey}{RGB}{152,152,157}
+\definecolor{lightgrey}{RGB}{230,230,235}
+
+%-------------------------------------------%
+
+\usepackage{tikz}
+
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{backgrounds,fit}
+
+%-------------------------------------------%
+
+\input{../ML-Flow.tikzstyle}
+		
+\begin{document}
+	\pagestyle{empty}
+
+	\begin{tikzpicture}[node distance = 2cm,
+										auto,
+										background rectangle/.style={fill=white}, 
+										show background rectangle]
+		% Place nodes
+		\node [database,label=above:Raw Data] (source) {};
+		\node [outteam, below of=source] (de) {Data Engineering};
+		%
+		% empty nodes
+		\node [below of =de, node distance=1cm](N1){};
+		\node [left of =N1, node distance=7.5cm](N2){};
+		\node [right of =N1, node distance=5.0cm](N3){};
+		\node [emptynode, below of =N1, node distance=1.0cm](N1a) {};
+		
+		% Start with ML nodes
+		\node [io, right of = N1a](access) {Data Access};
+		\node [io, left of = N1a](Get ML model) {ML model};
+		
+		
+		
+		\node [block, below of = access] (explore) {Explorative Data Analysis};
+		\node [emptynode, below of =explore, node distance=1.0cm](N4) {};
+		\node [block, left of= N4, yshift=-1.0cm](labelling) {Data Labelling};
+		\node [block, right of = N4, yshift=-1.0cm] (feature) {Feature Engineering};
+		\node [emptynode, below of =N4, node distance=2cm](N5) {};
+		\node [block, below of = N5] (train) {Training};
+		\node [block, below of = train] (eval) {Evaluating};
+		\node [decision, below of=eval] (decide) {Good ML model?};
+		\node [cloud, left of=decide] (expert) {expert};
+		\node [io, below of = decide, yshift=-0.3cm] (model) {Register Model};
+		
+		\node (infra) [Infra, left of=access,xshift=-3.5cm, yshift=-7.0cm, rotate=90] {Training Infrastructure};
+		
+		% Draw edges
+		\path [line,dashed, darkgrey] (source) -- (de);
+		\path [line,dashed, darkgrey] (de) |- (access);
+		\draw [-,dashed, darkgrey] (N2) -- (N3);
+		% Start AI work
+		\path [arrow] (access) -- node[xshift=0.2cm] {pipeline} (explore);
+		\path [line]  (explore) -- (N4);
+        % Labelling and Feature Engineering
+		\path [line] (N4) -| (labelling);
+		\path [line] (labelling) |- (N5);		
+		\path [line] (N4) -| (feature);
+		\path [line] (feature) |- (N5);
+		% Train
+		\path [arrow] (N5) -- node[xshift=0.2cm] {pipeline} (train);
+		%eval
+		\path [arrow] (train) -- node[xshift=0.2cm] {pipeline} (eval);
+		%decide
+		\path [arrow] (eval.south) -- node[xshift=0.2cm] {pipeline} (decide.north);
+		
+		\path[arrow] (decide.east) -| ($ (train.east) + (2.5cm,0) $) node[xshift=0.4cm] {no} |- (explore.east);
+		\path [line,dashed] (expert.east) -- (decide.west);
+		\path [arrow] (decide.south) -- node[xshift=0.2cm] {yes} (model.north);
+		
+		%connection to infrastructure
+		\path [arrow] (access.west) -- node[yshift=0.5cm] {pipeline} ($(access.west) - (3.5cm,0) $);
+		\path [line, dashed, draw=mediumgrey] ($(explore.west) - (3.5cm,0) $) -- node {compute} (explore.west);
+		\path [line, dashed, draw=mediumgrey] ($(train.west) - (3.5cm,0) $) -- node {compute} (train.west);
+		\path [line, dashed, draw=mediumgrey] ($(eval.west) - (3.5cm,0) $) -- node {compute} (eval.west);
+		\path [arrow] (model.west) -- node[yshift=0.5cm] {pipeline} ($(model.west) - (3.5cm,0) $);
+		
+	\end{tikzpicture}
+	
+\end{document}

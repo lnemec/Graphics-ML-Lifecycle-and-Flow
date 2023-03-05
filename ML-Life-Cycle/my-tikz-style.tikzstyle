@@ -1,0 +1,184 @@
+\newcommand*{\mytextstyle}{\sffamily\bfseries\color{lightgrey}}
+
+\newcommand{\arcarrow}[9]{%
+	% inner radius, middle radius, outer radius, start angle,
+	% end angle, tip protusion angle, options, text
+		\pgfmathsetmacro{\rin}{#1}
+		\pgfmathsetmacro{\rmid}{#2}
+		\pgfmathsetmacro{\rout}{#3}
+		\pgfmathsetmacro{\astart}{#4}
+		\pgfmathsetmacro{\aend}{#5}
+		\pgfmathsetmacro{\atip}{#6}
+		\pgfmathsetmacro{\xs}{#7}
+		%
+		\fill[#8, xshift=\xs cm] (\astart:\rin) arc (\astart:\aend:\rin)
+			-- (\aend+\atip:\rmid) -- (\aend:\rout) arc (\aend:\astart:\rout)
+			-- (\astart+\atip:\rmid) -- cycle;
+		%
+		\path[xshift=\xs cm, font = \sffamily, decoration = {text along path, text = {|\mytextstyle|#9},
+			text align = {align = center}, raise = -0.5ex}, decorate]
+			(\astart+\atip:\rmid) arc (\astart+\atip:\aend+\atip:\rmid);
+}
+
+\makeatletter
+	\tikzset{
+		database/.style={
+			path picture={
+				\draw (0, 1.5*\database@segmentheight) circle [x radius=\database@radius,y radius=\database@aspectratio*\database@radius];
+				\draw (-\database@radius, 0.5*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius];
+				\draw (-\database@radius,-0.5*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius];
+				\draw (-\database@radius,1.5*\database@segmentheight) -- ++(0,-3*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius] -- ++(0,3*\database@segmentheight);
+				},
+				minimum width=2*\database@radius + \pgflinewidth,
+				minimum height=3*\database@segmentheight + 2*\database@aspectratio*\database@radius + \pgflinewidth,
+			},
+		database segment height/.store in=\database@segmentheight,
+		database radius/.store in=\database@radius,
+		database aspect ratio/.store in=\database@aspectratio,
+		database segment height=0.3cm,
+		database radius=0.6cm,
+		database aspect ratio=0.35,
+	}
+\makeatother
+
+\tikzstyle{Infra} = [rectangle, 
+		rounded corners, 
+		minimum width=16cm, 
+		minimum height=1cm,
+		text centered, 
+		draw=mediumgrey, 
+		fill=lightgrey!70
+		]
+
+\tikzstyle{boxtext} = [rectangle, 
+		rounded corners, 
+		minimum width=4cm, 
+		minimum height=8cm,
+		text centered, 
+		text width=3.6cm,
+		text depth = 7.2 cm,
+		node distance=0.3cm,
+		draw=darkblue, 
+		fill=lightgrey
+]
+
+\tikzstyle{ProcessPhase} = [rectangle,
+		rounded corners, 
+		minimum width=4cm, 
+		minimum height=1cm,
+		node distance=0.3cm,
+		text width=3.6cm,
+		text centered, 
+		very thick,
+		draw=lightgrey, 
+		fill=darkblue
+]
+
+\tikzstyle{MaturityPhase} = [rectangle,
+		rounded corners, 
+		minimum width=4cm, 
+		minimum height=1cm,
+		node distance=0.3cm,
+		text width=3.8cm,
+		text centered, 
+		very thick,
+		draw=lightgrey, 
+		fill=darkblue
+]
+
+\tikzstyle{cicd} = [ rectangle,
+		rounded corners,
+		minimum width=4cm, 
+		minimum height=1cm,
+		node distance=0.3cm,
+		text centered, 
+		text width=3.8cm, 
+		draw=darkblue, 
+		fill=lightgrey
+]
+
+\tikzstyle{sig1} = [ signal,
+	% rounded corners,
+	signal from = east,
+	minimum width=4cm, 
+	minimum height=1cm,
+	node distance=0.3cm,
+	text centered, 
+	text width=3.8cm, 
+	draw=darkblue, 
+	fill=lightgrey
+]
+
+\tikzstyle{sig2} = [ signal,
+	% rounded corners,
+	signal from = west,
+	minimum width=4cm, 
+	minimum height=1cm,
+	node distance=0.3cm,
+	text centered, 
+	text width=3.8cm, 
+	draw=darkblue, 
+	fill=lightgrey
+]
+
+\tikzstyle{bigbox} = [rectangle,
+	rounded corners,
+	thick,
+	draw=darkblue,
+	fill=darkblue!10]
+
+\tikzstyle{outteam} = [ rectangle,
+	rounded corners, 
+	minimum width=3cm, 
+	minimum height=1cm, 
+	text centered, 
+	text width=3cm, 
+	draw=mediumgrey, 
+	fill=lightgrey!70
+]
+
+\tikzstyle{block} = [rectangle,
+		rounded corners, 
+		minimum width=3cm, 
+		minimum height=1cm,
+		text width=2.8cm,
+		minimum height=1cm,
+		text centered, 
+		draw=darkblue, 
+		fill=darkblue!30
+		]
+
+\tikzstyle{io} = [trapezium, 
+		trapezium stretches=true, % A later addition
+		trapezium left angle=70, 
+		trapezium right angle=110, 
+		minimum width=3cm, 
+		minimum height=1cm, text centered, 
+		draw=darkviolett, fill=violett!50
+		]
+
+		
+\tikzstyle{emptynode} = [circle,
+	draw=lightgrey,
+	fill=lightgrey,
+	node distance=0cm,
+	minimum height=0.35cm]
+
+
+% Define block styles
+\tikzstyle{decision} = [diamond,
+		draw=darkgreen,
+		fill=lightgreen!30, 
+		text width=4.5em,
+		text badly centered,
+		node distance=3cm,
+		inner sep=0pt]
+
+
+\tikzstyle{cloud} = [draw,
+	ellipse,fill=red!20,
+	node distance=3cm,
+	minimum height=2em]
+
+\tikzstyle{line} = [draw,  line width=1.8pt]
+\tikzstyle{arrow} = [draw, ->,  line width=1.8pt]

@@ -1,0 +1,221 @@
+\documentclass[tikz, border=10pt, convert=pdf2svg]{standalone}
+%Farbige gestaltung
+\usepackage{xcolor}    %this package provides foreground and background color management
+
+\definecolor{darkblue}{RGB}{0,68,170}
+\definecolor{darkred}{RGB}{106,0,0}
+\definecolor{darkgreen}{RGB}{1,73,62}
+\definecolor{lightgreen}{RGB}{129,195,65}
+\definecolor{darkviolett}{RGB}{59,0,112}
+\definecolor{violett}{RGB}{136,134,248}
+\definecolor{pink}{RGB}{151,8,79}
+\definecolor{mediumgreen}{RGB}{0,187,177}
+\definecolor{darkgrey}{RGB}{32,32,37}
+\definecolor{mediumgrey}{RGB}{152,152,157}
+\definecolor{lightgrey}{RGB}{230,230,235}
+
+%-------------------------------------------%
+
+\usepackage{tikz}
+
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{backgrounds,fit}
+
+%-------------------------------------------%
+
+\input{ML-Life-Cycle.tikzstyle}
+
+
+\begin{document}
+	\begin{tikzpicture}[background rectangle/.style={fill=white}, show background rectangle]
+		
+		%-------------------------------------------%
+		% Stage
+		\node [ProcessPhase, yshift=6.2cm](challenge) {\color{lightgrey}\bfseries Business Challenge};
+		
+		\node [ProcessPhase,
+			right=of challenge,
+			minimum width=12.68cm,
+			text width=12.4cm](dev) {\color{lightgrey}\bfseries  Development};
+		
+		\node [ProcessPhase,
+			right=of dev,
+			minimum width=8.38cm,
+			text width=8.1cm](success) {\color{lightgrey}\bfseries Business Success};
+		
+		\node[rectangle, node distance=0.2cm, left = of challenge](stage){\color{darkblue}\Large \bfseries Stage};
+		%-------------------------------------------%
+		
+		%-------------------------------------------%
+		% Maturity Level
+		\node [MaturityPhase,
+			below=of challenge](plan) {\color{lightgrey}\bfseries  Plan \& Design};
+		\node [MaturityPhase,
+			right=of plan,
+			minimum width=8.3cm,
+			text width=8.1cm](poc) {\color{lightgrey}\bfseries Proof-of-Concept (PoC)};
+		\node [MaturityPhase, right=of poc](mvp) {\color{lightgrey}\bfseries  Minimum Viable Product (MVP)};
+		\node [MaturityPhase, right=of mvp](prod) {\color{lightgrey}\bfseries  Production};
+		\node [MaturityPhase, right=of prod](scale) {\color{lightgrey}\bfseries  Scaling};
+		
+		\node[rectangle, node distance=0.2cm, left = of plan](mature){\color{darkblue}\Large \bfseries Maturity};
+		
+		%-------------------------------------------%		
+		\begin{pgfonlayer}{background}
+			\node[bigbox] [fit = (challenge) (scale)] {};
+		\end{pgfonlayer}
+		%-------------------------------------------%
+		
+		%-------------------------------------------%
+		% Ground Work
+		\node [boxtext, below=of plan] (desc1) {
+			{\color{darkblue}\Large \bfseries Groundwork}
+			\begin{flushleft}
+				The idea of the AI/ML solution is worth further consideration and commitment.\\
+				\vspace{1em}
+				The data availability and business requirement match to explore possible AI/ML solution.\\
+				\vspace{1em}
+				For example, explore feasibility within a focused time box.
+			\end{flushleft}
+		};
+		%-------------------------------------------%
+
+		%-------------------------------------------%
+		% Product Backlog
+		\node [boxtext, below=of mvp] (desc2) {
+			{\color{darkblue}\Large \bfseries Product Backlog}
+			\begin{flushleft}
+				The PoC is worth investing in to develop a AI/ML product.\\
+				\vspace{1em}
+				We have clarity of the product features and the necessary technology and data.\\
+				\vspace{1em}
+				It is possible to deploy the AI/ML solution or launch the AI/ML product.
+			\end{flushleft}
+		};
+		%-------------------------------------------%
+
+		%-------------------------------------------%
+		% Change Management
+		\node[rectangle,
+			right = of scale,
+			xshift=0.5cm](manage){\color{darkblue}\Large \bfseries Management};
+		\node[cicd, below =of manage] (incident){Incident};
+		\node[cicd, below =of incident] (change){Change};
+		\node[cicd, below =of change] (release){Release};
+		
+		\begin{pgfonlayer}{background}
+			\node[bigbox] [fit = (manage) (release)] {};
+		\end{pgfonlayer}
+		%-------------------------------------------%
+
+		%-------------------------------------------%
+		% Change Management
+		\node[rectangle,
+			below =of release](FB){\color{darkblue}\Large \bfseries Feedback};
+		\node[cicd, below =of FB] (FC){Collection};
+		\node[cicd, below =of FC] (FP){Processing};
+		
+		\begin{pgfonlayer}{background}
+			\node[bigbox] [fit = (FB) (FP)] {};
+		\end{pgfonlayer}
+		%-------------------------------------------%
+
+		%-------------------------------------------%
+		% First Iterative cycle
+				\arcarrow{2.7}{3.2}{3.7}{5}{77}{5}{6.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Evaluation};
+				
+				\arcarrow{2.7}{3.2}{3.7}{77}{149}{5}{6.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Understand problem};
+				
+				\arcarrow{2.7}{3.2}{3.7}{149}{221}{5}{6.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Understand Data};
+				
+				\arcarrow{2.7}{3.2}{3.7}{221}{293}{5}{6.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Prepare Data};
+				
+				\arcarrow{2.7}{3.2}{3.7}{293}{365}{5}{6.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Modelling};
+		%-------------------------------------------%
+		
+		%-------------------------------------------%
+		% Second Iterative cycle
+				\arcarrow{2.7}{3.2}{3.7}{5}{65}{5}{19.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Process Data};
+				
+				\arcarrow{2.7}{3.2}{3.7}{65}{125}{5}{19.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Model (re)-train};
+				
+				\arcarrow{2.7}{3.2}{3.7}{125}{185}{5}{19.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Model Validate};
+				
+				\arcarrow{2.7}{3.2}{3.7}{185}{245}{5}{19.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Integrate};
+				
+				\arcarrow{2.7}{3.2}{3.7}{245}{305}{5}{19.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Evaluate Feedback};
+				
+				\arcarrow{2.7}{3.2}{3.7}{305}{365}{5}{19.5}{
+					darkblue,
+					draw = lightgrey,
+					very thick}{Plan};
+		%-------------------------------------------%
+
+		%-------------------------------------------%
+		% Early stage process
+		
+		\node[sig1, below=of desc1 ] (ID){Ideation};
+		\node[sig2, right=of ID ] (EP){Exploration \& planing};
+		
+		\node[sig1, below=of ID ] (DC){Data collection};
+		\node[sig2, right=of DC ] (DL){Data annotation};
+		%-------------------------------------------%
+
+		%-------------------------------------------%
+		% 
+		\node[sig1, below=of desc2 ] (CI){Continuous integration};
+		\node[sig2, right=of CI ] (CT){Continuous testing};
+		\node[sig2, right=of CT ] (CD){Continuous deployment};
+		
+		\node[sig1, below=of CI ] (IM){Infrastructure monitoring};
+		\node[sig2, right=of IM ] (OM){Orchestration monitoring};
+		\node[sig2, right=of OM ] (MM){Model\\ monitoring};
+		
+		\node[sig1, below=of IM ] (DV){Data validation};
+		\node[sig2, right=of DV ] (DDD){Data drift detection};
+		\node[sig2, right=of DDD ] (AP){Anomaly processing};
+
+		\node[sig1, below=of DV ] (MO){ML Orchestration};
+		\node[sig2, right=of MO ] (MV){Model validation};
+		\node[sig2, right=of MV ] (CDD){Concept drift detection};
+		
+
+		%-------------------------------------------%
+
+	\end{tikzpicture}
+
+\end{document}
