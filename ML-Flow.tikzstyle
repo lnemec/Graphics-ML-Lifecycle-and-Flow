@@ -21,8 +21,8 @@
 
 \tikzstyle{Infra} = [rectangle, 
 		rounded corners, 
-		minimum width=16cm, 
-		minimum height=1cm,
+		minimum width=1cm, 
+		minimum height=16cm,
 		text centered, 
 		draw=mediumgrey, 
 		fill=lightgrey!70
