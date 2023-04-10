@@ -1,0 +1,124 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage{array}
+\usepackage{rotating}
+%Farbige gestaltung
+\usepackage{xcolor}    %this package provides foreground and background color management
+
+\definecolor{darkblue}{RGB}{0,68,170}
+\definecolor{darkred}{RGB}{106,0,0}
+\definecolor{darkgreen}{RGB}{1,73,62}
+\definecolor{lightgreen}{RGB}{129,195,65}
+\definecolor{darkviolett}{RGB}{59,0,112}
+\definecolor{violett}{RGB}{136,134,248}
+\definecolor{pink}{RGB}{151,8,79}
+\definecolor{mediumgreen}{RGB}{0,187,177}
+\definecolor{darkgrey}{RGB}{32,32,37}
+\definecolor{mediumgrey}{RGB}{152,152,157}
+\definecolor{lightgrey}{RGB}{230,230,235}
+
+%-------------------------------------------%
+
+\usepackage{tikz}
+
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{backgrounds,fit}
+
+%-------------------------------------------%
+
+\input{../ML-Flow.tikzstyle}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{tikzpicture}[node distance = 2cm,
+		auto,
+		background rectangle/.style={fill=white}, 
+		show background rectangle]
+		
+		%-------------------------------------------%
+		\node (infra) [Infra] (infra1){
+			\begin{turn}{90}
+				Compute \& Data Infrastructure
+			\end{turn}
+		};
+		%-------------------------------------------%
+		
+		\node (infra) [Infra, right of=infra1,xshift=9cm] (infra2){
+			\begin{turn}{270}
+				git flow; Continuous Integration \& Deployment
+			\end{turn}
+		};
+	
+		\node [database, above of=infra1, yshift=7.5cm,label=above:Raw Data] (source) {};
+		
+		% Place nodes
+		%\node [database,label=above:Raw Data] (source) {};
+		\node [outteam, right of=source, xshift=3.5cm] (de) {Data Engineering};
+		%
+		% empty nodes
+		\node [below of =de, node distance=1cm](N1){};
+		\node [left of =N1, node distance=0.3cm](N2){};
+		\node [right of =N1, node distance=0.3cm](N3){};
+		% Start with ML nodes
+		\node [io, below of =N1, node distance=1.3cm](access) {Data Access};
+		\node [block, below of = access] (explore) {Explorative Data Analysis};
+		\node [emptynode, below of =explore, node distance=1.0cm](N4) {};
+		\node [block, left of= N4, yshift=-1.0cm] (feature) {Feature Engineering};
+		\node [block, right of = N4, yshift=-1.0cm](annotate) {Data Annotation};
+		\node [emptynode, below of =N4, node distance=2cm](N5) {};
+		\node [block, below of = N5] (train) {Training};
+		\node [block, below of = train] (eval) {Evaluating};
+		\node [decision, below of=eval] (decide) {Good ML model?};
+		\node [cloud, left of=decide] (expert) {Expert};
+		\node [io, below of = decide, yshift=-0.3cm] (model) {Register Model};
+		
+		%-------------------------------------------%
+		% empty nodes
+		\path [line,  draw=mediumgrey] (infra2.north) |- node[xshift=-3cm]{Infrastructure code}(N1.east);
+		\path [arrow,  draw=mediumgrey] (N1.west) -| (infra1.north);
+		\draw [line,  draw=mediumgrey] (N2) -- (N3);
+		%-------------------------------------------%
+
+		% Draw edges
+				
+		\path [line,dashed, darkgrey] (source) -- (de);
+		\path [line,dashed, darkgrey] (de) -- (access);
+
+		% Start AI work
+		\path [arrow] (access) -- node[xshift=0.2cm](p1) {manual} (explore);
+		\path [line]  (explore) -- (N4);
+        % annotate and Feature Engineering
+		\path [line] (N4) -| (annotate);
+		\path [line] (annotate) |- (N5);		
+		\path [line] (N4) -| (feature);
+		\path [line] (feature) |- (N5);
+		% Train
+		\path [arrow] (N5) -- node[xshift=0.2cm](p2) {manual} (train);
+		%eval
+		\path [arrow] (train) -- node[xshift=0.2cm](p3){manual} (eval);
+		%decide
+		\path [arrow] (eval.south) -- node[xshift=0.2cm](p4){manual} (decide.north);
+		
+		\path[arrow] (decide.east) -| ($ (train.east) + (3.3cm,0) $) node[xshift=-2.0cm, yshift=-4.7cm] {no} |- (explore.east);
+		\path [line,dashed] (expert.east) -- (decide.west);
+		\path [arrow] (decide.south) -- node[xshift=0.2cm] {yes} (model.north);
+		
+		%connection to infrastructure
+		\path [arrow] (access.west) -- node[yshift=0.5cm] {pipeline/ manual} ($(access.west) - (3.5cm,0) $);
+		\path [line, dashed, draw=mediumgrey] ($(explore.west) - (3.5cm,0) $) -- node {compute} (explore.west);
+		\path [line, dashed, draw=mediumgrey] ($(train.west) - (3.5cm,0) $) -- node {compute} (train.west);
+		\path [line, dashed, draw=mediumgrey] ($(eval.west) - (3.5cm,0) $) -- node {compute} (eval.west);
+		\path [arrow] (model.west) -- node[yshift=0.5cm] {pipeline} ($(model.west) - (3.5cm,0) $);
+		
+		\path [line, dashed, draw=mediumgrey] ($(annotate.east) + (1.5cm,0) $) -- node[yshift=0.5cm] {} (annotate.east);
+		\path [line, dashed, draw=mediumgrey] ($(train.east) + (3.5cm,0) $) -- node[yshift=0.5cm]{Source code} (train.east);
+		\path [line, dashed, draw=mediumgrey] ($(eval.east) + (3.5cm,0) $) -- node[yshift=0.5cm]{Source code} (eval.east);
+		
+	\end{tikzpicture}
+	
+\end{document}
