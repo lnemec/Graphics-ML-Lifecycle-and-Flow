@@ -68,8 +68,8 @@
 		\node [io, below of =N1, node distance=1.3cm](access) {Data Access};
 		\node [block, below of = access] (explore) {Explorative Data Analysis};
 		\node [emptynode, below of =explore, node distance=1.0cm](N4) {};
-		\node [block, left of= N4, yshift=-1.0cm] (feature) {Feature Engineering};
-		\node [block, right of = N4, yshift=-1.0cm](annotate) {Data Annotation};
+		\node [block, right of= N4, yshift=-1.0cm] (feature) {Feature Engineering};
+		\node [block, left of = N4, yshift=-1.0cm](annotate) {Data Annotation};
 		\node [emptynode, below of =N4, node distance=2cm](N5) {};
 		\node [block, below of = N5] (train) {Training};
 		\node [block, below of = train] (eval) {Evaluating};
@@ -115,10 +115,10 @@
 		\path [line, dashed, draw=mediumgrey] ($(eval.west) - (3.5cm,0) $) -- node {compute} (eval.west);
 		\path [arrow] (model.west) -- node[yshift=0.5cm] {pipeline} ($(model.west) - (3.5cm,0) $);
 		
-		\path [line, dashed, draw=mediumgrey] ($(annotate.east) + (1.5cm,0) $) -- node[yshift=0.5cm] {} (annotate.east);
+		\path [line, dashed, draw=mediumgrey] ($(feature.east) + (1.5cm,0) $) -- node[yshift=0.5cm] {} (feature.east);
 		\path [line, dashed, draw=mediumgrey] ($(train.east) + (3.5cm,0) $) -- node[yshift=0.5cm]{Source code} (train.east);
 		\path [line, dashed, draw=mediumgrey] ($(eval.east) + (3.5cm,0) $) -- node[yshift=0.5cm]{Source code} (eval.east);
-		
+			
 	\end{tikzpicture}
 	
 \end{document}

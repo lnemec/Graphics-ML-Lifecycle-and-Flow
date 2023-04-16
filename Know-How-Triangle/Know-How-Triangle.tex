@@ -1,0 +1,68 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage{array}
+\usepackage{rotating}
+%Farbige gestaltung
+\usepackage{xcolor}    %this package provides foreground and background color management
+
+\definecolor{darkblue}{RGB}{0,68,170}
+\definecolor{darkred}{RGB}{106,0,0}
+\definecolor{darkgreen}{RGB}{1,73,62}
+\definecolor{lightgreen}{RGB}{129,195,65}
+\definecolor{darkviolett}{RGB}{59,0,112}
+\definecolor{violett}{RGB}{136,134,248}
+\definecolor{pink}{RGB}{151,8,79}
+\definecolor{mediumgreen}{RGB}{0,187,177}
+\definecolor{darkgrey}{RGB}{32,32,37}
+\definecolor{mediumgrey}{RGB}{152,152,157}
+\definecolor{lightgrey}{RGB}{230,230,235}
+
+%-------------------------------------------%
+
+\usepackage{tikz}
+
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{backgrounds,fit}
+
+%-------------------------------------------%
+
+\input{../ML-Flow.tikzstyle}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{tikzpicture}[node distance = 2cm,
+		auto,
+		background rectangle/.style={fill=white}, 
+		show background rectangle]
+		
+		%-------------------------------------------%
+
+		\draw[darkgrey, fill=darkgrey!30, rounded corners] (2.3,-1) -- (2.3,-16) -- (4.3,-16) -- cycle;
+		\draw[darkblue, fill=darkblue!30, rounded corners] (2.5,-1) -- (4.5,-1) -- (4.5,-16) -- cycle;
+
+		%-------------------------------------------%
+		
+		\node[draw=darkblue!30] at (3.5,-1.5) {\textbf{ML}};
+		\node[draw=darkgrey!30] at (3.3,-15.5) {\textbf{Cloud}};
+		
+		%-------------------------------------------%
+		
+		\node [block] (role) {\textbf{Roles}};
+		\node[block, right=0.2cm of role] (expert) {\textbf{Expertise}};
+		
+		%-------------------------------------------%
+		\node[block, below=1.0cm of role, fill=lightgrey] (DS) {Data Scientist};
+		\node[block, below= of DS, fill=lightgrey] (MLE) {Machine Learning Engineer};
+		\node[block, below= of MLE, fill=lightgrey] (MLO) {Machine Learning Operation Engineer};
+		\node[block, below= of MLO, fill=lightgrey] (CIE) {Cloud Infrastructure Engineer};
+		\node[block, below=of CIE, fill=lightgrey] (FSE) {Full Stack Engineer};
+		
+		
+	\end{tikzpicture}
+	
+\end{document}

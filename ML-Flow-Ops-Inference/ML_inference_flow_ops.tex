@@ -101,9 +101,9 @@
 		%		% Draw edges
 		\path [arrow] (access.south) |- (feature.west);
 		\path [arrow] (GMLm.south) |- (inference.east);
-		\path [arrow] (feature) --  node(p2){manual} (inference);
-		\path [arrow] (inference) -- node(p4){manual} (eval);
-		\path [arrow] (eval) --  node(p5){manual} (decide);
+		\path [arrow] (feature) --  node(p2){pipeline} (inference);
+		\path [arrow] (inference) -- node(p4){pipeline} (eval);
+		\path [arrow] (eval) --  node(p5){pipeline} (decide);
 		\path [line,dashed, darkgrey] (expert) -- (decide);
 		\path [arrow] (decide.west) -- node[xshift=0.2cm] {yes} (store.east);
 		\path [arrow] (decide.south) -- node {no} (model.north);
@@ -117,8 +117,127 @@
 		\path [line, dashed, draw=mediumgrey] (feature.east) -- node{Source code} ($(feature.east) + (3.4cm,0) $);
 		\path [line, dashed, draw=mediumgrey] (inference.east) -- node{Source code} ($(inference.east) + (3.4cm,0) $);
 		\path [line, dashed, draw=mediumgrey] (eval.east) -- node{Source code} ($(eval.east) + (3.4cm,0) $);
-		%-------------------------------------------%	
+		%-------------------------------------------%
 		
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					draw=lightgreen,
+					above right=0.1cm and 8cm of access] (monitor1) {Drift Monitor};
+		\node [block,
+					below left=0.1cm and -1.55cm of monitor1,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor2) {Back-end};
+		\node [block,
+					right=0.1cm of monitor2,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor3) {User Interf.};
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=mediumgrey, 
+					fill=lightgrey!70,
+					below left=0.1cm and -1.55cm of monitor3] (monitor4) {Infrastructure};
+		\node[ rectangle, 
+					rounded corners,
+					draw=darkgreen,
+					fit=(monitor1) (monitor4)] {};
+		
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					draw=lightgreen,
+					below =1.4cm of monitor4] (monitor5) {Infrastructure Monitor};
+		\node [block,
+					below left=0.1cm and -1.55cm of monitor5,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor6) {Back-end};
+		\node [block,
+					right=0.1cm of monitor6,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor7) {User Interf.};
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=mediumgrey, 
+					fill=lightgrey!70,
+					below left=0.1cm and -1.55cm of monitor7] (monitor8) {Infrastructure};
+		\node[ rectangle, 
+					rounded corners,
+					draw=darkgreen,
+					fit=(monitor5) (monitor8)] {};
+		
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					draw=lightgreen,
+					below =1.4cm of monitor8] (monitor9) {Model Monitor};
+		\node [block,
+					below left=0.1cm and -1.55cm of monitor9,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor10) {Back-end};
+		\node [block,
+					right=0.1cm of monitor10,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor11) {User Interf.};
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=mediumgrey, 
+					fill=lightgrey!70,
+					below left=0.1cm and -1.55cm of monitor11] (monitor12) {Infrastructure};
+		\node[ rectangle, 
+					rounded corners,
+					draw=darkgreen,
+					fit=(monitor9) (monitor12)] {};
+		
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					draw=lightgreen,
+					below =1.4cm of monitor12] (monitor13) {Automation Monitor};
+		\node [block,
+					below left=0.1cm and -1.55cm of monitor13,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor14) {Back-end};
+		\node [block,
+					right=0.1cm of monitor14,
+					minimum width=1.5cm,
+					draw=lightgreen,
+					fill=lightgreen!20,
+					text width=1.3cm] (monitor15) {User Interf.};
+		\node [block,
+					minimum width=3.2cm,
+					minimum height=0.7cm,
+					draw=mediumgrey, 
+					fill=lightgrey!70,
+					below left=0.1cm and -1.55cm of monitor15] (monitor16) {Infrastructure};
+		\node[ rectangle, 
+					rounded corners,
+					draw=darkgreen,
+					fit=(monitor13) (monitor16)] {};
 
 	\end{tikzpicture}
 	
